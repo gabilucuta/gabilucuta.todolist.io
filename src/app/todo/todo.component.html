@@ -1,0 +1,77 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 styler">
+            <div>
+                <mat-card>
+                    <form [formGroup]="todoForm">
+                        <mat-form-field appearance="outline">
+                            <mat-label>New Task</mat-label>
+                            <input formControlName="item" matInput>
+                            <mat-hint>Remember to do all your tasks !</mat-hint>
+                        </mat-form-field>
+                        <button *ngIf="!isEditEnabled" (click)="addTask()" [disabled]="todoForm.invalid"
+                            mat-raised-button color="primary">Add
+                            Task</button>
+                        <button *ngIf="isEditEnabled" (click)="onUpdateSubmit()" [disabled]="todoForm.invalid"
+                            mat-raised-button color="accent">Update Task
+                        </button>
+                    </form>
+                </mat-card>
+            </div>
+        </div>
+        <div class="col-md-9 styler1">
+            <div cdkDropListGroup>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="example-container">
+                            <h2>To do</h2>
+                            <div cdkDropList [cdkDropListData]="tasks" class="example-list"
+                                (cdkDropListDropped)="drop($event)">
+                                <div class="example-box" *ngFor="let item of tasks; let i = index" cdkDrag>
+                                    {{item.description}}
+                                    <div class="icons">
+                                        <button *ngIf="!isEditEnabled" (click)="removeTask(i)" mat-mini-fab color="warn" #tooltip="matTooltip"
+                                            matTooltip="Delete Task" matTooltipPosition="below">
+                                            <mat-icon class="icon-display">delete</mat-icon>
+                                        </button>
+                                        <button (click)="updateTask(item,i)" mat-mini-fab color="primary" #tooltip="matTooltip"
+                                        matTooltip="Edit Task" matTooltipPosition="below">
+                                            <mat-icon class="icon-display">edit</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="example-container">
+                            <h2>In Progress</h2>
+                            <div cdkDropList [cdkDropListData]="inProgressTasks" class="example-list"
+                                (cdkDropListDropped)="drop($event)">
+                                <div class="example-box" *ngFor="let item of inProgressTasks; let i = index" cdkDrag>
+                                    {{item.description}}
+                                    <button *ngIf="!isEditEnabled" (click)="removeTaskInProgression(i)" mat-mini-fab color="warn" #tooltip="matTooltip"
+                                    matTooltip="Delete Task" matTooltipPosition="below">
+                                        <mat-icon class="icon-display">delete</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="example-container">
+                            <h2>Done</h2>
+                            <div cdkDropList [cdkDropListData]="doneTaks" class="example-list"
+                                (cdkDropListDropped)="drop($event)">
+                                <div class="example-box" *ngFor="let item of doneTaks" cdkDrag>{{item.description}}
+                                    <button mat-mini-fab class="buttons" #tooltip="matTooltip"
+                                    matTooltip="Task Done !" matTooltipPosition="below">
+                                        <mat-icon class="icon-display">check_circle</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
